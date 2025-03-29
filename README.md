@@ -1,4 +1,4 @@
-# 💬 ChatApp
+# 💬 ChatApp - Em Andamento
 
 Um aplicativo de chat em tempo real, desenvolvido com as melhores práticas e tecnologias modernas para Android.
 

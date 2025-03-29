@@ -1,7 +1,20 @@
 package com.example.realtimechat.ui.navigation
 
-sealed class Screens(val route: String) {
-    data object Home : Screens(route = "home")
-    data object Login : Screens(route = "login")
-    data object SignUp : Screens(route = "signUp")
-}
+import kotlinx.serialization.Serializable
+
+@Serializable
+object HomeRoute
+
+@Serializable
+object ChatRoute
+
+@Serializable
+object LoginRoute
+
+@Serializable
+object SignUpRoute
+
+@Serializable
+data class SMSVerificationRoute(
+    val isToRegister: Boolean = false
+)

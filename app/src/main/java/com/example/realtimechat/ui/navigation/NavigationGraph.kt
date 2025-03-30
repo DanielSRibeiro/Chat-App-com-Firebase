@@ -10,8 +10,8 @@ import com.example.realtimechat.ui.screen.chat.ChatScreen
 import com.example.realtimechat.ui.screen.home.HomeScreen
 import com.example.realtimechat.ui.screen.login.LoginScreen
 import com.example.realtimechat.ui.screen.login.LoginViewModel
-import com.example.realtimechat.ui.screen.signup.SignUpScreen
-import com.example.realtimechat.ui.screen.signup.SignUpScreenViewModel
+import com.example.realtimechat.ui.screen.sign_up.SignUpScreen
+import com.example.realtimechat.ui.screen.sign_up.SignUpScreenViewModel
 
 @Composable
 fun NavigationGraph(navController: NavHostController) {
@@ -33,15 +33,11 @@ fun NavigationGraph(navController: NavHostController) {
 
             LoginScreen(
                 uiState = uiState,
-                onChangeEmailValue = viewModel::eventEmail,
-                onChangePasswordValue = viewModel::eventPassword,
-                processAuthentication = viewModel::signInWithEmailAndPassword,
-                navigateToSignUp = {
-                    navController.navigate(SignUpRoute)
-                },
-                navigateToHome = {
-                    navController.navigate(HomeRoute)
-                }
+                onChangeEmailValue = viewModel::onChangeEmailValue,
+                onChangePasswordValue = viewModel::onChangePasswordValue,
+                signIn = viewModel::signIn,
+                navigateToSignUp = { navController.navigate(SignUpRoute) },
+                navigateToHome = { navController.navigate(HomeRoute) }
             )
         }
 
@@ -51,12 +47,11 @@ fun NavigationGraph(navController: NavHostController) {
 
             SignUpScreen(
                 uiState = uiState,
-                onChangeEmailValue = viewModel::eventEmail,
-                onChangePasswordValue = viewModel::eventPassword,
-                processAuthentication = viewModel::processAuthentication,
-                navigateToHome = {
-                    navController.navigate(HomeRoute)
-                }
+                onChangeNameValue = viewModel::onChangeNameValue,
+                onChangeEmailValue = viewModel::onChangeEmailValue,
+                onChangePasswordValue = viewModel::onChangePasswordValue,
+                signUp = viewModel::signUp,
+                navigateToHome = { navController.navigate(HomeRoute) }
             )
         }
 

@@ -1,7 +1,9 @@
 package com.example.realtimechat.data.repository.di
 
-import com.example.realtimechat.data.repository.FirebaseAuthenticationDataSource
-import com.example.realtimechat.data.repository.FirebaseAuthenticationDataSourceImpl
+import com.example.realtimechat.data.repository.authentication.FirebaseAuthenticationRepository
+import com.example.realtimechat.data.repository.authentication.FirebaseAuthenticationRepositoryImp
+import com.example.realtimechat.data.repository.firestore.FirebaseFireStoreRepository
+import com.example.realtimechat.data.repository.firestore.FirebaseFireStoreRepositoryImp
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,7 +14,12 @@ import dagger.hilt.components.SingletonComponent
 interface RepositoryModule {
 
     @Binds
-    fun bindsFirebaseAuthenticationDataSource(
-        firebaseAuthenticationDataSourceImpl: FirebaseAuthenticationDataSourceImpl
-    ): FirebaseAuthenticationDataSource
+    fun bindFirebaseAuthenticationRepository(
+        firebaseAuthenticationRepositoryImp: FirebaseAuthenticationRepositoryImp
+    ): FirebaseAuthenticationRepository
+
+    @Binds
+    fun bindFireStoreRepository(
+        firebaseFireStoreRepositoryImp: FirebaseFireStoreRepositoryImp
+    ): FirebaseFireStoreRepository
 }

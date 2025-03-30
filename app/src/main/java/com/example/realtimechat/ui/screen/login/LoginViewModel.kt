@@ -6,67 +6,58 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.realtimechat.data.domain.ResultStatus
-import com.example.realtimechat.data.repository.FirebaseAuthenticationDataSource
+import com.example.realtimechat.data.domain.usecase.base.ResultStatus
+import com.example.realtimechat.data.repository.authentication.FirebaseAuthenticationRepository
+import com.example.realtimechat.ui.screen.login.state.LoginState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val firebaseAuthenticationDataSource: FirebaseAuthenticationDataSource
+    private val firebaseAuthenticationRepository: FirebaseAuthenticationRepository
 ): ViewModel(){
 
     var uiState by mutableStateOf(LoginState())
         private set
 
-    fun signInWithEmailAndPassword() {
+    fun signIn() {
         if (uiState.emailInfo.isNotEmpty() && uiState.password.isNotEmpty()) {
             viewModelScope.launch {
-                firebaseAuthenticationDataSource.signInWithEmailAndPassword(
+                val result = firebaseAuthenticationRepository.signInWithEmailAndPassword(
                     email = uiState.emailInfo,
-                    password = uiState.password,
-                    callback = { resultStatus ->
-                        when (resultStatus) {
-                            is ResultStatus.Error -> {
-                                Log.d("ResultStatus", resultStatus.throwable.toString())
-                            }
-
-                            ResultStatus.Loading -> {
-                                Log.d("ResultStatus", "resultStatus.throwable.toString()")
-                            }
-
-                            is ResultStatus.Success -> {
-                                uiState = uiState.copy(
-                                    isPasswordError = false,
-                                    isEmailError = false,
-                                    isSuccess = true
-                                )
-                            }
-                        }
-                    }
+                    password = uiState.password
                 )
+                when (result) {
+                    is ResultStatus.Error -> {
+                        Log.d("ResultStatus", result.throwable.toString())
+                    }
+
+                    ResultStatus.Loading -> {
+                        Log.d("ResultStatus", "resultStatus.throwable.toString()")
+                    }
+
+                    is ResultStatus.Success -> {
+                        uiState = uiState.copy(
+                            isPasswordError = false,
+                            isEmailError = false,
+                            isSuccess = true
+                        )
+                    }
+                }
             }
         }
     }
 
-    fun eventEmail(email: String) {
-        if (email.length <= 40) {
+    fun onChangeEmailValue(email: String) {
+        if (email.length <= 50) {
             uiState = uiState.copy(emailInfo = email)
         }
     }
 
-    fun eventPassword(password: String) {
-        if (password.length <= 40) {
+    fun onChangePasswordValue(password: String) {
+        if (password.length <= 20) {
             uiState = uiState.copy(password = password)
         }
     }
 }
-
-data class LoginState(
-    val emailInfo: String = "",
-    val password: String = "",
-    val isEmailError: Boolean = false,
-    val isPasswordError: Boolean = false,
-    val isSuccess: Boolean = false,
-)

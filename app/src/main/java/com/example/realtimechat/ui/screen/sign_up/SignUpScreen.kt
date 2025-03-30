@@ -1,6 +1,5 @@
-package com.example.realtimechat.ui.screen.signup
+package com.example.realtimechat.ui.screen.sign_up
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -31,14 +31,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.example.realtimechat.ui.screen.sign_up.state.SignUpState
 
 @Composable
 fun SignUpScreen(
     uiState: SignUpState,
     modifier: Modifier = Modifier,
+    onChangeNameValue: (String) -> Unit = {},
     onChangeEmailValue: (String) -> Unit = {},
     onChangePasswordValue: (String) -> Unit = {},
-    processAuthentication: () -> Unit = {},
+    signUp: () -> Unit = {},
     navigateToHome: () -> Unit,
 ) {
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
@@ -62,6 +64,22 @@ fun SignUpScreen(
             Text(text = "Sign Up", style = MaterialTheme.typography.titleLarge)
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = "Descrição", style = MaterialTheme.typography.bodyMedium)
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedTextField(
+                modifier = modifier
+                    .fillMaxWidth(),
+                value = uiState.name,
+                onValueChange = { onChangeNameValue(it) },
+                isError = uiState.isNameError,
+                trailingIcon = {
+                    Icon(imageVector = Icons.Default.Person, contentDescription = "Nome")
+                },
+                label = { Text("Nome") },
+                textStyle = MaterialTheme.typography.bodyLarge,
+                supportingText = { Text("Nome") }
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -110,7 +128,7 @@ fun SignUpScreen(
             Button(
                 modifier = Modifier,
                 onClick = {
-                    processAuthentication()
+                    signUp()
                 }
             ) {
                 Text(text = "Avançar")

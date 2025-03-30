@@ -1,4 +1,4 @@
-package com.example.realtimechat.data.domain
+package com.example.realtimechat.data.domain.usecase.base
 
 sealed class ResultStatus<out T> {
     object Loading : ResultStatus<Nothing>()

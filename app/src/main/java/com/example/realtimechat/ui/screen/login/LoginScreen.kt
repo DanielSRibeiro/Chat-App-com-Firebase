@@ -32,6 +32,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.example.realtimechat.ui.screen.login.state.LoginState
 
 @Composable
 fun LoginScreen(
@@ -39,7 +40,7 @@ fun LoginScreen(
     modifier: Modifier = Modifier,
     onChangeEmailValue: (String) -> Unit = {},
     onChangePasswordValue: (String) -> Unit = {},
-    processAuthentication: () -> Unit = {},
+    signIn: () -> Unit = {},
     navigateToSignUp: () -> Unit,
     navigateToHome: () -> Unit,
 ) {
@@ -113,7 +114,7 @@ fun LoginScreen(
             Button(
                 modifier = Modifier,
                 onClick = {
-                    processAuthentication()
+                    signIn()
                 }
             ) {
                 Text(text = "Avançar")
